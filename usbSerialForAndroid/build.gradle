@@ -1,99 +1,58 @@
-apply plugin: 'com.android.library'
-apply plugin: 'maven'
-apply plugin: 'signing'
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.1"
+    compileSdkVersion 30
+    buildToolsVersion '30.0.3'
 
     defaultConfig {
-        minSdkVersion 12
-        targetSdkVersion 19
+        minSdkVersion 17
+        targetSdkVersion 30
+        consumerProguardFiles 'proguard-rules.pro'
+        
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments = [                    // Raspi   Windows   LinuxVM   ...
+                'rfc2217_server_host': '192.168.0.100',
+                'rfc2217_server_nonstandard_baudrates': 'true',   // true    false     false
+        ]
     }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-        }
-    }
-}
-
-group = "com.hoho.android"
-version = "0.2.0-SNAPSHOT"
-
-configurations {
-    archives {
-        extendsFrom configurations.default
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
-signing {
-    required { has("release") && gradle.taskGraph.hasTask("uploadArchives") }
-    sign configurations.archives
+dependencies {
+    implementation "androidx.annotation:annotation:1.2.0"
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.mockito:mockito-core:1.10.19'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'commons-net:commons-net:3.8.0'
+    androidTestImplementation 'org.apache.commons:commons-lang3:3.11'
 }
 
-def getRepositoryUsername() {
-    return hasProperty('sonatypeUsername') ? sonatypeUsername : ""
-}
+// gradle task: publishToMavenLocal
+project.afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                artifact androidSourcesJar
 
-def getRepositoryPassword() {
-    return hasProperty('sonatypePassword') ? sonatypePassword : ""
-}
-
-def isReleaseBuild() {
-    return version.contains("SNAPSHOT") == false
-}
-
-uploadArchives {
-    def sonatypeRepositoryUrl
-    if (isReleaseBuild()) {
-        println 'RELEASE BUILD'
-        sonatypeRepositoryUrl = hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL
-                : "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-    } else {
-        println 'SNAPSHOT BUILD'
-        sonatypeRepositoryUrl = hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL
-                : "https://oss.sonatype.org/content/repositories/snapshots/"
-    }
-
-    configuration = configurations.archives
-    repositories.mavenDeployer {
-        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-        repository(url: sonatypeRepositoryUrl) {
-            authentication(userName: getRepositoryUsername(),
-                    password: getRepositoryPassword())
-        }
-
-        pom.artifactId = 'usb-serial-for-android'
-        pom.project {
-            name 'usb-serial-for-android'
-            packaging 'aar'
-            description 'USB Serial Driver Library for Android'
-            url 'https://github.com/mik3y/usb-serial-for-android'
-
-            scm {
-                url 'scm:git@github.com:mik3y/usb-serial-for-android.git'
-                connection 'scm:git@github.com:mik3y/usb-serial-for-android.git'
-                developerConnection 'scm:git@github.com:mik3y/usb-serial-for-android.git'
-            }
-
-            licenses {
-                license {
-                    name 'GNU LGPL v2.1'
-                    url 'http://www.gnu.org/licenses/lgpl-2.1.txt'
-                    distribution 'repo'
-                }
-            }
-
-            developers {
-                developer {
-                    id 'mik3y'
-                    name 'mik3y'
-                    email 'opensource@hoho.com'
-                }
+                // values used for local maven repo, jitpack uses github release:
+                groupId 'com.github.mik3y'
+                artifactId 'usb-serial-for-android'
+                version 'v3.5.0beta'
             }
         }
     }
 }
+
+task androidSourcesJar(type: Jar) {
+    classifier 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+//apply from: 'coverage.gradle'
