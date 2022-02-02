@@ -164,9 +164,9 @@ public class CdcAcmSerialDriver implements UsbSerialDriver {
             }
 
             mControlEndpoint = mControlInterface.getEndpoint(0);
-            if (mControlEndpoint.getDirection() != UsbConstants.USB_DIR_IN || mControlEndpoint.getType() != UsbConstants.USB_ENDPOINT_XFER_INT) {
-                throw new IOException("Invalid control endpoint");
-            }
+//            if (mControlEndpoint.getDirection() != UsbConstants.USB_DIR_IN || mControlEndpoint.getType() != UsbConstants.USB_ENDPOINT_XFER_INT) {
+//                throw new IOException("Invalid control endpoint");
+//            }
 
             if(mDataInterface == null) {
                 throw new IOException("No data interface");
