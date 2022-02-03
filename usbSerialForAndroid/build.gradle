@@ -34,21 +34,6 @@ dependencies {
 }
 
 // gradle task: publishToMavenLocal
-project.afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-                artifact androidSourcesJar
-
-                // values used for local maven repo, jitpack uses github release:
-                groupId 'com.github.mik3y'
-                artifactId 'usb-serial-for-android'
-                version 'v3.5.0beta'
-            }
-        }
-    }
-}
 
 task androidSourcesJar(type: Jar) {
     classifier 'sources'
