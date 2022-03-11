@@ -151,10 +151,10 @@ public class CdcAcmSerialDriver implements UsbSerialDriver {
 
             int endCount = mControlInterface.getEndpointCount();
 
-            if (endCount < 3) {
-                Log.d(TAG,"not enough endpoints - need 3. count=" + mControlInterface.getEndpointCount());
-                throw new IOException("Insufficient number of endpoints(" + mControlInterface.getEndpointCount() + ")");
-            }
+            // if (endCount < 3) {
+            //     Log.d(TAG,"not enough endpoints - need 3. count=" + mControlInterface.getEndpointCount());
+            //     throw new IOException("Insufficient number of endpoints(" + mControlInterface.getEndpointCount() + ")");
+            // }
 
             // Analyse endpoints for their properties
             mControlEndpoint = null;
@@ -185,12 +185,12 @@ public class CdcAcmSerialDriver implements UsbSerialDriver {
                 }
             }
 
-            if ((mControlEndpoint == null) ||
-                    (mReadEndpoint == null) ||
-                    (mWriteEndpoint == null)) {
-                Log.d(TAG,"Could not establish all endpoints");
-                throw new IOException("Could not establish all endpoints");
-            }
+            // if ((mControlEndpoint == null) ||
+            //         (mReadEndpoint == null) ||
+            //         (mWriteEndpoint == null)) {
+            //     Log.d(TAG,"Could not establish all endpoints");
+            //     throw new IOException("Could not establish all endpoints");
+            // }
         }
 
         private void openInterface() throws IOException {
