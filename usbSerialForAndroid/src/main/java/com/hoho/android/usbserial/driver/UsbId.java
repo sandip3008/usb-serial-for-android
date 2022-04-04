@@ -70,6 +70,23 @@ public final class UsbId {
 
     public static final int VENDOR_STM = 0x0483;
     public static final int STM_Fxxx = 0x5740;
+  public static final int PRODUCT_ID_citypos = 0x5743;
+
+  public static final int VENDOR_CHINA1 = 0x0FE6;
+  public static final int PRODUCT_ID_CHINA1 = 0x811E;
+
+  public static final int VENDOR_EPSON = 0x04B8;
+  public static final int PRODUCT_TMT202 = 0x0E15;
+  public static final int PRODUCT_TMT203 = 0x0E28;
+
+//  public static final int VENDOR_CITYPOS = 0x0483;
+//  public static final int PRODUCT_ID_citypos = 0x5743;
+
+  public static final int VENDOR_TAPOS = 0x4B43;
+  public static final int PRODUCT_ID_TAPOS = 0x3830;
+
+  public static final int VENDOR_ABCY = 0x28E9;
+  public static final int PRODUCT_ID_ABVY = 0x0289;
 
     private UsbId() {
         throw new IllegalAccessError("Non-instantiable class.");

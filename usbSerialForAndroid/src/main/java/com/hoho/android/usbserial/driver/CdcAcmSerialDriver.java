@@ -428,8 +428,28 @@ public class CdcAcmSerialDriver implements UsbSerialDriver {
                 });
         supportedDevices.put(Integer.valueOf(UsbId.VENDOR_STM),
                 new int[] {
-                    UsbId.STM_Fxxx
+                    UsbId.STM_Fxxx,
+                    UsbId.PRODUCT_ID_citypos
                 });
+      supportedDevices.put(Integer.valueOf(UsbId.VENDOR_EPSON),
+        new int[] {
+          UsbId.PRODUCT_TMT202,
+          UsbId.PRODUCT_TMT203
+        });
+      supportedDevices.put(Integer.valueOf(UsbId.VENDOR_CHINA1),
+        new int[] {
+          UsbId.PRODUCT_ID_CHINA1
+        });
+
+      supportedDevices.put(Integer.valueOf(UsbId.VENDOR_TAPOS),
+        new int[] {
+          UsbId.PRODUCT_ID_TAPOS
+        });
+
+      supportedDevices.put(Integer.valueOf(UsbId.VENDOR_ABCY),
+        new int[] {
+          UsbId.PRODUCT_ID_ABVY
+        });
         return supportedDevices;
     }
 
